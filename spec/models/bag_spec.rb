@@ -100,4 +100,16 @@ describe Bag do
 
   end
 
+  context 'created with json' do
+
+    let(:test_json) do
+      { size: :small }.to_json
+    end
+
+    subject { Bag.bag_from_json(test_json) }
+
+    it { is_expected.to be_valid }
+
+  end
+
 end

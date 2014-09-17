@@ -5,7 +5,7 @@ class Bag < Base
 
   def self.bag_from_json(bag_json)
     bag_obj = JSON.parse(bag_json)
-    Bag.new(bag_obj.size)
+    Bag.new(bag_obj['size'].to_sym)
   end
 
   def initialize(size)
