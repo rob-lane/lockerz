@@ -76,8 +76,6 @@ describe LockerController do
 
     end
 
-
-
   end
 
   context "checking a medium bag" do
@@ -88,6 +86,36 @@ describe LockerController do
       }.to change { subject.lockers[1].open_slots }.by(-1)
     end
 
+    context "when all medium slots are full" do
+
+      before do
+        (1..subject.slot_count).each do |_|
+          subject.check_bag(medium_bag.to_json)
+        end
+      end
+
+      it "should add a bag to the large slot locker" do
+        expect {
+          subject.check_bag(medium_bag.to_json)
+        }.to change { subject.lockers[2].open_slots }.by(-1)
+      end
+
+    end
+
+    context "when all medium and large slots are full" do
+
+      before do
+        (1..subject.slot_count*2).each do |_|
+          subject.check_bag(medium_bag.to_json)
+        end
+      end
+
+      it "should raise an error" do
+        expect { subject.check_bag(medium_bag.to_json) }.to raise_error
+      end
+
+    end
+
   end
 
   context "checking a large bag" do
@@ -96,6 +124,19 @@ describe LockerController do
       expect {
         subject.check_bag(large_bag.to_json)
       }.to change { subject.lockers[2].open_slots }.by(-1)
+    end
+
+    context "when all large slots are full" do
+
+      before do
+        (1..subject.slot_count).each do |_|
+          subject.check_bag(large_bag.to_json)
+        end
+      end
+
+      it "should raise an error" do
+        expect {subject.check_bag(large_bag) }.to raise_error
+      end
     end
 
   end
