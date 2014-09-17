@@ -29,4 +29,8 @@ class Locker < Base
     @slots - @slot_array.length
   end
 
+  def read_bag_at(idx)
+    @slot_array[idx]
+  end
+
 end

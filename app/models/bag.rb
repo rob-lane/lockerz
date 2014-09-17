@@ -11,4 +11,8 @@ class Bag < Base
   def initialize(size)
     @size = Size.new(size)
   end
+
+  def to_json
+    {size: size}.to_json
+  end
 end
